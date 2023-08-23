@@ -24,8 +24,68 @@ select concat(uname,'의 평균은') as 이름, concat(aver, '입니다') as 평균 from su
 select uname || '의 평균은'|| aver || '입니다' from sungjuk;
 select uname || '의 평균은'|| aver || '입니다' as str from sungjuk;
 
-2.숫자 관련 함수
+--ASCII 문자변환
+select chr(65) from dual;   --'A'
+select chr(66) from dual;   --'B'
+select chr(97) from dual;   --'a'
+select chr(98) from dual;   --'b'
+select '#' || chr(32) || '#' from dual; --공백문자
 
+select chr(43) from dual;   --'+'
+select chr(45) from dual;   --'-'
+select chr(42) from dual;   --'*'
+select chr(47) from dual;   --'/'
+//////////////////////////////////////////////
+
+
+
+2.숫자 관련 함수
+select abs(-7) from dual;         --절대값
+select mod(5,3) from dual;        --나머지 함수
+select ceil(12.4) from dual;      --올림함수
+select trunc(13.56,1) from dual;  --내림함수
+
+select avg(kor) from sungjuk;              --66.363636
+select ceil(avg(kor)) from sungjuk;        --67
+select trunc(avg(kor),2) from sungjuk;     --66.36
+select round(avg(kor),2) from sungjuk;     --66.36
 3.날짜 관련 함수
+--시스템의 현재 날짜와 시간 정보를 리턴하는 함수
+select sysdate from dual; 
+
+--날짜데이터의 연산
+select sysdate+100 from dual;  --오늘날짜+100일
+select sysdate-100 from dual;  --오늘날짜-100일
+
+--sysdate에서 년월일 추출하기
+select extract(year from sysdate) from dual;  --2023
+select extract(month from sysdate) from dual;  --8
+select extract(day from sysdate) from dual;  --22
+
+--두개의 날짜데이터에서 개월 수 계싼
+select months_between('2023-08-22', '2022-10-30') from dual; --9.7
+select months_between('2023-08-22', '2023-12-31') from dual; -- -4.2
+//////////////////////////////////////////////////////////////////////
 
 4.형변환 함수
+
+--TO_CHAR(원래 날짜, '원하는 모양')
+--숫자와 날짜를 문자로 변환해 주는 두가지 기능
+
+--
+select to_char(sysdate, 'YYYY-MM-DD') from dual; --2023-08-22
+select to_char(sysdate, 'MM/DD/YYYY') from dual; --08/22/2023
+select to_char(sysdate, 'DD-Mon-YYYY') from dual; --22-8월-2023
+
+select to_char(sysdate, 'YYYY') from dual; --'2023'
+select to_char(sysdate, 'MM') from dual; --'08'
+select to_char(sysdate, 'DD') from dual; --'22'
+
+-- to_number('숫자형태의 문자열')
+select to_number('123')+1 from dual;  -- 124
+select '123'+1 from dual;             -- 124 내부적으로 to_number()가 호출됨
+
+--TO DATE('문자', '날짜포멧')
+--문자열을 날짜형으로 변환
+select to_date('2023-08-22') from dual;
+select to_date('2023-08-22') - to_date('2023-05-30') from dual;
