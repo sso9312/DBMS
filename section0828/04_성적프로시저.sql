@@ -77,21 +77,22 @@ create or replace procedure sungjukList
     v_cursor out sys_refcursor --out 출력매게변수
 )
 is
-    rec sungjuk%rowtype;
+    rec sungjuk%rowtype; --sungjuk테이블의 한행의 타입과 동일하게 변수 선언
 begin
-    open v_cursor for 
-    select * from sungjuk order by sno desc;
-    LOOP
+    open v_cursor for select * from sungjuk order by sno desc;
+    lOOP
+        fetch v_cursor into rec;
         exit when v_cursor%NOTFOUND;
-        dbms_output.put_line(rec.uname);
-        dbms_output.put_line(rec.kor);
-        dbms_output.put_line(rec.eng);
-        dbms_output.put_line(rec.mat);
-        dbms_output.put_line(rec.tot);
-        dbms_output.put_line(rec.aver);
-        dbms_output.put_line(rec.addr);
-        dbms_output.put_line(rec.wdate);
+        dbms_output.put_line(rec.uname||' '||rec.kor||' '||rec.eng||' '||rec.mat||' '||rec.tot||' '||rec.aver||' '||rec.addr||' '||rec.wdate);
     end LOOP;
+    
+    close v_cursor;
 end;
 
+
+var v_cursor refcursor;     --참조 커서 변수 선언
+execute sungjukList(:v_cursor);
+
+--사전준비작업
+set serveroutput on;
 
